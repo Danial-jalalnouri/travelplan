@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelPlan - AI-Powered Travel Planning</title>
+    <link rel="stylesheet" href="css/styles.css?v=1.5.1">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">TravelPlan</div>
+        <div class="nav-auth">
+            <button id="admin-btn" class="admin-nav-btn hidden" onclick="toggleAdminPanel()">Admin</button>
+            <div id="auth-logged-out">
+                <button class="auth-btn login-btn" onclick="loginWithGoogle()">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20">
+                    Sign in with Google
+                </button>
+            </div>
+            <div id="auth-logged-in" class="hidden">
+                <div class="user-info">
+                    <img id="user-avatar" src="" alt="Avatar" class="user-avatar">
+                    <span id="user-name"></span>
+                </div>
+                <button class="auth-btn logout-btn" onclick="logoutUser()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">AI-Powered Travel Planning</div>
+            <h1>Discover Your Perfect <span>Journey</span></h1>
+            <p>Let AI create personalized day-by-day itineraries for your dream destinations. Save and manage all your travel plans in one place.</p>
+            <button class="cta-button" onclick="scrollToPlanning()">Start Planning</button>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>AI-Powered Plans</h3>
+            <p>Get personalized day-by-day itineraries crafted by advanced AI with real restaurant and attraction recommendations</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">📋</div>
+            <h3>Interactive Panels</h3>
+            <p>Browse your plan day by day with dedicated sections for meals, activities, transport, and tips</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💾</div>
+            <h3>Save & Manage</h3>
+            <p>Your plans are stored securely in your browser. Access them anytime without internet</p>
+        </div>
+    </section>
+
+    <!-- Planning Section -->
+    <section id="planning-section" class="planning-section">
+        <div class="planning-container">
+            <h2>Plan Your Trip</h2>
+            
+            <div id="login-required-msg" class="login-required">
+                <p>🔒 Please <strong>sign in with Google</strong> to generate travel plans.</p>
+            </div>
+
+            <div id="planning-form">
+                <div class="form-group">
+                    <label for="city">Destination City</label>
+                    <input type="text" id="city" placeholder="e.g., Paris, Tokyo, New York" required>
+                </div>
+
+                <div class="date-row">
+                    <div class="form-group">
+                        <label for="start-date">Start Date</label>
+                        <input type="date" id="start-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="end-date">End Date</label>
+                        <input type="date" id="end-date" required>
+                    </div>
+                </div>
+
+                <button id="generate-btn" class="generate-button" onclick="generatePlan()">Generate Travel Plan</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loading Section -->
+    <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>Creating your personalized travel plan...</p>
+    </div>
+
+    <!-- Plan Display Section -->
+    <section id="plan-section" class="plan-section hidden">
+        <div class="plan-container">
+            <!-- Plan Header -->
+            <div class="plan-header">
+                <h2 id="plan-title">Your Travel Plan</h2>
+                <div class="plan-meta" id="plan-meta"></div>
+            </div>
+
+            <!-- Overview -->
+            <div class="plan-overview" id="plan-overview"></div>
+
+            <!-- General Tips -->
+            <div class="general-tips" id="general-tips"></div>
+
+            <!-- Budget -->
+            <div class="budget-card" id="budget-card"></div>
+
+            <!-- Day Tabs -->
+            <div class="day-tabs" id="day-tabs"></div>
+
+            <!-- Day Panels Container -->
+            <div id="day-panels"></div>
+
+            <!-- Actions -->
+            <div class="plan-actions">
+                <button class="action-button primary-button" onclick="savePlanToDB()">Save Plan</button>
+                <button class="action-button secondary-button" onclick="resetForm()">Plan Another Trip</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Saved Plans Section -->
+    <section id="saved-section" class="saved-section">
+        <div class="saved-container">
+            <h2>Your Saved Plans</h2>
+            <div id="saved-plans" class="saved-plans">
+                <p class="no-plans">Sign in to see your saved plans.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel Section -->
+    <section id="admin-section" class="admin-section hidden">
+        <div class="admin-container">
+            <h2>Admin Panel</h2>
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-users">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-plans">0</div>
+                        <div class="stat-label">Total Plans</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-table-container">
+                <h3>User Management</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Plans Used</th>
+                            <th>Max Plans</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 TravelPlan. Powered by AI.</p>
+    </footer>
+
+    <script src="js/app.js?v=7.1.0"></script>
+</body>
+</html>
