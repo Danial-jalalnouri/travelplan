@@ -267,6 +267,21 @@ app.get('/api/plans', requireAuth, async (req, res) => {
     }
 });
 
+// Get current user's plan count
+app.get('/api/plans/count', requireAuth, async (req, res) => {
+    try {
+        const userId = req.user.uid;
+        const plansRef = admin.firestore().collection('travel_plans');
+        const q = plansRef.where('userId', '==', userId);
+        const snapshot = await q.get();
+
+        res.json({ count: snapshot.size });
+    } catch (error) {
+        console.error('Error getting plan count:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // Get a specific plan (must belong to current user)
 app.get('/api/plans/:id', requireAuth, async (req, res) => {
     try {
@@ -312,21 +327,6 @@ app.delete('/api/plans/:id', requireAuth, async (req, res) => {
         res.json({ success: true });
     } catch (error) {
         console.error('Error deleting plan:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-// Get current user's plan count
-app.get('/api/plans/count', requireAuth, async (req, res) => {
-    try {
-        const userId = req.user.uid;
-        const plansRef = admin.firestore().collection('travel_plans');
-        const q = plansRef.where('userId', '==', userId);
-        const snapshot = await q.get();
-
-        res.json({ count: snapshot.size });
-    } catch (error) {
-        console.error('Error getting plan count:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 });
