@@ -36,6 +36,8 @@ body {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
 }
 
 .auth-btn {
@@ -65,6 +67,7 @@ body {
     background: rgba(255,255,255,0.15);
     color: white;
     border: 1px solid rgba(255,255,255,0.3);
+    white-space: nowrap;
 }
 
 .logout-btn:hover {
@@ -76,6 +79,7 @@ body {
     align-items: center;
     gap: 10px;
     color: white;
+    white-space: nowrap;
 }
 
 .user-avatar {
@@ -116,6 +120,7 @@ body {
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .admin-nav-btn:hover {
