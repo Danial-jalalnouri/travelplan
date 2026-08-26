@@ -1,0 +1,9 @@
+{
+  "name": "travelplan",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cd backend && node server.js",
+    "dev": "cd backend && node server.js"
+  }
+}

@@ -9,10 +9,22 @@ const PORT = process.env.PORT || 3000;
 
 // ===== Firebase Admin (verifies users from the frontend) =====
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
-    admin.initializeApp({
-        credential: admin.credential.cert(process.env.GOOGLE_APPLICATION_CREDENTIALS)
-    });
-    console.log('Firebase Admin initialized');
+    try {
+        const creds = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+        // Vercel: env var is JSON string; local: env var is file path
+        if (creds.startsWith('{')) {
+            admin.initializeApp({
+                credential: admin.credential.cert(JSON.parse(creds))
+            });
+        } else {
+            admin.initializeApp({
+                credential: admin.credential.cert(creds)
+            });
+        }
+        console.log('Firebase Admin initialized');
+    } catch (error) {
+        console.error('Firebase Admin init failed:', error.message);
+    }
 } else {
     console.warn('WARNING: GOOGLE_APPLICATION_CREDENTIALS not set. Auth verification disabled!');
 }
@@ -618,8 +630,13 @@ function extractJson(text) {
 // The backend also serves the static frontend files (index.html, css/, js/)
 app.use(express.static(path.join(__dirname, '..')));
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`TravelPlan running on http://localhost:${PORT}`);
-    console.log(`Using model: ${MODEL}`);
-});
+// Start server (local development)
+if (process.env.VERCEL !== '1') {
+    app.listen(PORT, () => {
+        console.log(`TravelPlan running on http://localhost:${PORT}`);
+        console.log(`Using model: ${MODEL}`);
+    });
+}
+
+// Export for Vercel serverless
+module.exports = app;
