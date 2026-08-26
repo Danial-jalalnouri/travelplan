@@ -74,6 +74,13 @@ body {
     background: rgba(255,255,255,0.25);
 }
 
+#auth-logged-in {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    white-space: nowrap;
+}
+
 .user-info {
     display: flex;
     align-items: center;
