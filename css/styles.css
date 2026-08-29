@@ -4,11 +4,34 @@
     box-sizing: border-box;
 }
 
+:root {
+    --bg-primary: #f7fafc;
+    --bg-secondary: #ffffff;
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-muted: #718096;
+    --border-color: #e2e8f0;
+    --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+body.dark-mode {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --text-primary: #eaeaea;
+    --text-secondary: #b8b8b8;
+    --text-muted: #a0a0a0;
+    --border-color: #2d3748;
+    --card-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #1a202c;
-    background: #f7fafc;
+    color: var(--text-primary);
+    background: var(--bg-primary);
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* Navbar */
@@ -38,6 +61,26 @@ body {
     gap: 15px;
     flex-wrap: nowrap;
     white-space: nowrap;
+}
+
+.theme-toggle {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
 }
 
 .auth-btn {
@@ -149,7 +192,7 @@ body {
 /* Admin Section */
 .admin-section {
     padding: 80px 20px;
-    background: #f7fafc;
+    background: var(--bg-primary);
 }
 
 .admin-container {
@@ -159,7 +202,7 @@ body {
 
 .admin-container h2 {
     text-align: center;
-    color: #1a365d;
+    color: var(--text-primary);
     margin-bottom: 40px;
     font-size: 2rem;
 }
@@ -172,13 +215,13 @@ body {
 }
 
 .stat-card {
-    background: white;
+    background: var(--bg-secondary);
     padding: 30px 40px;
     border-radius: 16px;
     display: flex;
     align-items: center;
     gap: 20px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--card-shadow);
     min-width: 200px;
 }
 
@@ -189,23 +232,23 @@ body {
 .stat-value {
     font-size: 2rem;
     font-weight: 700;
-    color: #1a365d;
+    color: var(--text-primary);
 }
 
 .stat-label {
-    color: #718096;
+    color: var(--text-muted);
     font-size: 0.9rem;
 }
 
 .admin-table-container {
-    background: white;
+    background: var(--bg-secondary);
     padding: 30px;
     border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--card-shadow);
 }
 
 .admin-table-container h3 {
-    color: #1a365d;
+    color: var(--text-primary);
     margin-bottom: 20px;
 }
 
@@ -218,26 +261,28 @@ body {
 .admin-table td {
     padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .admin-table th {
-    background: #f7fafc;
-    color: #4a5568;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
     font-weight: 600;
 }
 
 .admin-table tr:hover {
-    background: #f7fafc;
+    background: var(--bg-primary);
 }
 
 .max-plans-input {
     width: 80px;
     padding: 8px 12px;
-    border: 2px solid #e2e8f0;
+    border: 2px solid var(--border-color);
     border-radius: 6px;
     font-size: 1rem;
     text-align: center;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .max-plans-input:focus {
@@ -364,23 +409,23 @@ body {
     justify-content: center;
     gap: 30px;
     padding: 100px 20px;
-    background: white;
+    background: var(--bg-secondary);
 }
 
 .feature-card {
     text-align: center;
     padding: 40px 30px;
-    background: white;
+    background: var(--bg-secondary);
     border-radius: 20px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--card-shadow);
     max-width: 320px;
     transition: all 0.3s ease;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--border-color);
 }
 
 .feature-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow-hover);
 }
 
 .feature-icon {
@@ -396,14 +441,14 @@ body {
 }
 
 .feature-card h3 {
-    color: #1a365d;
+    color: var(--text-primary);
     margin-bottom: 15px;
     font-size: 1.3rem;
     font-weight: 700;
 }
 
 .feature-card p {
-    color: #718096;
+    color: var(--text-muted);
     font-size: 0.95rem;
     line-height: 1.7;
 }
@@ -411,22 +456,22 @@ body {
 /* Planning Section */
 .planning-section {
     padding: 100px 20px;
-    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
 }
 
 .planning-container {
     max-width: 700px;
     margin: 0 auto;
-    background: white;
+    background: var(--bg-secondary);
     padding: 50px;
     border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
 }
 
 .planning-container h2 {
     text-align: center;
-    color: #1a365d;
+    color: var(--text-primary);
     margin-bottom: 40px;
     font-size: 2.2rem;
     font-weight: 700;
@@ -439,7 +484,7 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 10px;
-    color: #4a5568;
+    color: var(--text-secondary);
     font-weight: 600;
     font-size: 0.95rem;
 }
@@ -447,17 +492,18 @@ body {
 .form-group input {
     width: 100%;
     padding: 18px 20px;
-    border: 2px solid #e2e8f0;
+    border: 2px solid var(--border-color);
     border-radius: 12px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background: #f7fafc;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .form-group input:focus {
     outline: none;
     border-color: #3182ce;
-    background: white;
+    background: var(--bg-secondary);
     box-shadow: 0 0 0 4px rgba(49, 130, 206, 0.1);
 }
 
@@ -526,7 +572,7 @@ body {
 /* Plan Display */
 .plan-section {
     padding: 60px 20px;
-    background: #f7fafc;
+    background: var(--bg-primary);
 }
 
 .plan-container {
@@ -535,22 +581,22 @@ body {
 }
 
 .plan-header {
-    background: white;
+    background: var(--bg-secondary);
     padding: 30px 40px;
     border-radius: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
 }
 
 .plan-header h2 {
-    color: #1a365d;
+    color: var(--text-primary);
     font-size: 2rem;
     margin-bottom: 10px;
 }
 
 .plan-header .plan-meta {
-    color: #718096;
+    color: var(--text-muted);
     font-size: 1rem;
 }
 
@@ -574,21 +620,21 @@ body {
     gap: 10px;
     margin-bottom: 30px;
     flex-wrap: wrap;
-    background: white;
+    background: var(--bg-secondary);
     padding: 15px;
     border-radius: 16px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--card-shadow);
 }
 
 .day-tab {
     padding: 12px 24px;
-    border: 2px solid #e2e8f0;
+    border: 2px solid var(--border-color);
     border-radius: 10px;
-    background: white;
+    background: var(--bg-secondary);
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: 600;
-    color: #4a5568;
+    color: var(--text-secondary);
 }
 
 .day-tab:hover {
@@ -605,11 +651,11 @@ body {
 /* Day Content Panel */
 .day-panel {
     display: none;
-    background: white;
+    background: var(--bg-secondary);
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    border: 1px solid #e2e8f0;
+    box-shadow: var(--card-shadow-hover);
+    border: 1px solid var(--border-color);
 }
 
 .day-panel.active {
@@ -646,7 +692,7 @@ body {
 .time-block {
     margin-bottom: 35px;
     padding: 25px;
-    background: #f7fafc;
+    background: var(--bg-primary);
     border-radius: 16px;
     border-left: 4px solid #3182ce;
 }
@@ -693,24 +739,24 @@ body {
 }
 
 .time-block h4 {
-    color: #1a365d;
+    color: var(--text-primary);
     font-size: 1.1rem;
 }
 
 .time-block .time-range {
-    color: #718096;
+    color: var(--text-muted);
     font-size: 0.9rem;
     margin-left: auto;
 }
 
 .time-block .location {
-    color: #4a5568;
+    color: var(--text-secondary);
     font-weight: 600;
     margin-bottom: 10px;
 }
 
 .time-block .description {
-    color: #718096;
+    color: var(--text-muted);
     margin-bottom: 12px;
 }
 
@@ -721,12 +767,12 @@ body {
 }
 
 .activity-tag {
-    background: white;
+    background: var(--bg-secondary);
     padding: 6px 14px;
     border-radius: 20px;
     font-size: 0.85rem;
-    color: #4a5568;
-    border: 1px solid #e2e8f0;
+    color: var(--text-secondary);
+    border: 1px solid var(--border-color);
 }
 
 /* Meals Section */
@@ -735,7 +781,7 @@ body {
 }
 
 .meals-section h4 {
-    color: #1a365d;
+    color: var(--text-primary);
     font-size: 1.2rem;
     margin-bottom: 20px;
     display: flex;
@@ -750,14 +796,14 @@ body {
 }
 
 .meal-card {
-    background: #f7fafc;
+    background: var(--bg-primary);
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
 }
 
 .meal-card .meal-type {
-    color: #718096;
+    color: var(--text-muted);
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -765,14 +811,14 @@ body {
 }
 
 .meal-card .meal-name {
-    color: #1a365d;
+    color: var(--text-primary);
     font-weight: 700;
     font-size: 1.05rem;
     margin-bottom: 5px;
 }
 
 .meal-card .meal-cuisine {
-    color: #4a5568;
+    color: var(--text-secondary);
     font-size: 0.9rem;
     margin-bottom: 5px;
 }
@@ -797,14 +843,14 @@ body {
 }
 
 .info-card {
-    background: #f7fafc;
+    background: var(--bg-primary);
     padding: 20px;
     border-radius: 12px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
 }
 
 .info-card h5 {
-    color: #1a365d;
+    color: var(--text-primary);
     font-size: 0.95rem;
     margin-bottom: 12px;
     display: flex;
@@ -817,7 +863,7 @@ body {
 }
 
 .info-card li {
-    color: #4a5568;
+    color: var(--text-secondary);
     font-size: 0.9rem;
     padding: 6px 0;
     padding-left: 20px;
@@ -863,16 +909,16 @@ body {
 
 /* General Tips */
 .general-tips {
-    background: white;
+    background: var(--bg-secondary);
     padding: 30px 40px;
     border-radius: 16px;
     margin-bottom: 30px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e2e8f0;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
 }
 
 .general-tips h4 {
-    color: #1a365d;
+    color: var(--text-primary);
     font-size: 1.3rem;
     margin-bottom: 20px;
 }
@@ -886,7 +932,7 @@ body {
     display: flex;
     gap: 15px;
     padding: 15px;
-    background: #f7fafc;
+    background: var(--bg-primary);
     border-radius: 10px;
 }
 
@@ -903,7 +949,7 @@ body {
 }
 
 .tip-text {
-    color: #4a5568;
+    color: var(--text-secondary);
     font-size: 0.95rem;
 }
 
@@ -972,7 +1018,7 @@ body {
 /* Saved Plans */
 .saved-section {
     padding: 100px 20px;
-    background: white;
+    background: var(--bg-secondary);
 }
 
 .saved-container {
@@ -982,7 +1028,7 @@ body {
 
 .saved-container h2 {
     text-align: center;
-    color: #1a365d;
+    color: var(--text-primary);
     margin-bottom: 50px;
     font-size: 2.2rem;
 }
@@ -1000,33 +1046,33 @@ body {
 }
 
 .saved-plan-card {
-    background: #f7fafc;
+    background: var(--bg-primary);
     padding: 30px;
     border-radius: 16px;
     border-left: 5px solid #3182ce;
     transition: all 0.3s ease;
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--border-color);
 }
 
 .saved-plan-card:hover {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--card-shadow-hover);
     transform: translateX(5px);
 }
 
 .saved-plan-card h4 {
-    color: #1a365d;
+    color: var(--text-primary);
     margin-bottom: 10px;
     font-size: 1.3rem;
 }
 
 .saved-plan-card .dates {
-    color: #718096;
+    color: var(--text-muted);
     font-size: 0.95rem;
     margin-bottom: 15px;
 }
 
 .saved-plan-card .plan-preview {
-    color: #4a5568;
+    color: var(--text-secondary);
     max-height: 80px;
     overflow: hidden;
     font-size: 0.95rem;

@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TravelPlan - AI-Powered Travel Planning</title>
-    <link rel="stylesheet" href="css/styles.css?v=1.6.0">
+    <link rel="stylesheet" href="css/styles.css?v=1.7.0">
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-brand">TravelPlan</div>
         <div class="nav-auth">
+            <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
             <button id="admin-btn" class="admin-nav-btn hidden" onclick="toggleAdminPanel()">Admin</button>
             <div id="auth-logged-out">
                 <button class="auth-btn login-btn" onclick="loginWithGoogle()">
