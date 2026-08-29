@@ -4,6 +4,34 @@
 
     const API_URL = '/api';
 
+    // ===== Theme Management =====
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            document.body.classList.add('dark-mode');
+            updateThemeIcon(true);
+        }
+    }
+
+    function updateThemeIcon(isDark) {
+        const toggle = document.getElementById('theme-toggle');
+        if (toggle) {
+            toggle.textContent = isDark ? '☀️' : '🌙';
+            toggle.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
+        }
+    }
+
+    window.toggleTheme = function() {
+        const isDark = document.body.classList.toggle('dark-mode');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+    };
+
+    // Initialize theme on load
+    initTheme();
+
     // ===== XSS Protection: escape HTML entities =====
     function escapeHtml(str) {
         if (str == null) return '';

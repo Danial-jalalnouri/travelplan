@@ -2,7 +2,7 @@
 
 AI-powered travel planning web application with a Node.js backend and secure AI integration.
 
-**Version:** 5.3.0
+**Version:** 5.4.0
 
 ## Features
 
@@ -15,6 +15,7 @@ AI-powered travel planning web application with a Node.js backend and secure AI 
 - **Cloud Storage**: Plans stored in Firebase Firestore (per user)
 - **Admin Panel**: Manage user plan limits
 - **Auto-Save**: Plans automatically saved after generation
+- **Dark Mode**: Toggle between dark and light themes with persistent preference
 
 ## Project Structure
 
@@ -82,6 +83,7 @@ The backend serves the frontend AND handles AI requests — no need to run two s
 4. Click "Generate Travel Plan"
 5. Browse the day-by-day panel
 6. Plans are auto-saved to "Your Saved Plans"
+7. Click the 🌙/☀️ button in the navbar to toggle dark mode
 
 ## How It Works
 
