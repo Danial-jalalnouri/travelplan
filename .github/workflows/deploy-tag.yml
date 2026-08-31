@@ -16,36 +16,24 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo (full history)
+      - name: Checkout repo
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Fetch tag from remote if needed
+      - name: Fetch tag
         run: |
           if ! git show-ref --tags --quiet --verify "refs/tags/${{ github.event.inputs.tag }}"; then
-            echo "Fetching tag from remote..."
             git fetch origin tag "${{ github.event.inputs.tag }}" --no-tags
           fi
 
-      - name: Checkout specific tag
+      - name: Checkout tag
         run: |
           git checkout "refs/tags/${{ github.event.inputs.tag }}" --force
-          echo "=== Deploying commit $(git rev-parse HEAD) ==="
           git log --oneline -1
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Deploy to Vercel (same as local: vercel --prod)
-        id: deploy
-        run: |
-          URL=$(vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
-          echo "url=$URL" >> "$GITHUB_OUTPUT"
-
-      - name: Summary
-        run: |
-          echo "### Deployed" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Tag:** \`${{ github.event.inputs.tag }}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Commit:** \`$(git rev-parse HEAD)\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "**URL:** ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+      - name: Deploy
+        run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
