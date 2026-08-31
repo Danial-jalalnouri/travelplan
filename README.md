@@ -22,11 +22,13 @@ AI-powered travel planning web application with a Node.js backend and secure AI 
 ```
 travelplan/
 ├── index.html              # Main HTML file (served by backend)
+├── admin.html              # Admin panel page
 ├── README.md               # Project documentation
 ├── css/
 │   └── styles.css          # Styling
 ├── js/
-│   └── app.js              # Frontend application logic
+│   ├── app.js              # Frontend application logic
+│   └── admin.js            # Admin panel logic
 └── backend/
     ├── server.js           # Node.js backend (Express + OpenRouter + Firebase Admin)
     ├── package.json        # Backend dependencies
@@ -84,6 +86,7 @@ The backend serves the frontend AND handles AI requests — no need to run two s
 5. Browse the day-by-day panel
 6. Plans are auto-saved to "Your Saved Plans"
 7. Click the 🌙/☀️ button in the navbar to toggle dark mode
+8. Admin users can click the **Admin** button in the navbar to access the admin panel
 
 ## How It Works
 

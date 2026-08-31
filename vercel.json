@@ -6,7 +6,7 @@
       "src": "backend/server.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["index.html", "css/**", "js/**"]
+        "includeFiles": ["index.html", "admin.html", "css/**", "js/**"]
       }
     }
   ],

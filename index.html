@@ -12,7 +12,7 @@
         <div class="nav-brand">TravelPlan</div>
         <div class="nav-auth">
             <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
-            <button id="admin-btn" class="admin-nav-btn hidden" onclick="toggleAdminPanel()">Admin</button>
+            <a id="admin-btn" href="/admin.html" class="admin-nav-btn hidden">Admin</a>
             <div id="auth-logged-out">
                 <button class="auth-btn login-btn" onclick="loginWithGoogle()">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20">
@@ -134,46 +134,6 @@
             <h2>Your Saved Plans</h2>
             <div id="saved-plans" class="saved-plans">
                 <p class="no-plans">Sign in to see your saved plans.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Admin Panel Section -->
-    <section id="admin-section" class="admin-section hidden">
-        <div class="admin-container">
-            <h2>Admin Panel</h2>
-            <div class="admin-stats">
-                <div class="stat-card">
-                    <div class="stat-icon">👥</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="total-users">0</div>
-                        <div class="stat-label">Total Users</div>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon">📋</div>
-                    <div class="stat-info">
-                        <div class="stat-value" id="total-plans">0</div>
-                        <div class="stat-label">Total Plans</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="admin-table-container">
-                <h3>User Management</h3>
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>User</th>
-                            <th>Email</th>
-                            <th>Plans Used</th>
-                            <th>Max Plans</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="users-table-body">
-                    </tbody>
-                </table>
             </div>
         </div>
     </section>

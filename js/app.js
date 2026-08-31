@@ -132,7 +132,6 @@
         const loginRequiredMsg = document.getElementById('login-required-msg');
         const planningForm = document.getElementById('planning-form');
         const adminBtn = document.getElementById('admin-btn');
-        const adminSection = document.getElementById('admin-section');
 
         if (user) {
             loggedOut.classList.add('hidden');
@@ -148,7 +147,6 @@
                 adminBtn.classList.remove('hidden');
             } else {
                 adminBtn.classList.add('hidden');
-                adminSection.classList.add('hidden');
             }
 
             setupUser(user);
@@ -163,7 +161,6 @@
             planningForm.classList.add('hidden');
 
             adminBtn.classList.add('hidden');
-            adminSection.classList.add('hidden');
 
             document.getElementById('saved-plans').innerHTML = '<p class="no-plans">Sign in to see your saved plans.</p>';
         }
@@ -638,94 +635,7 @@
         }
     };
 
-    // ========== ADMIN PANEL ==========
 
-    window.toggleAdminPanel = async function() {
-        const adminSection = document.getElementById('admin-section');
-
-        if (adminSection.classList.contains('hidden')) {
-            adminSection.classList.remove('hidden');
-            await loadAdminData();
-            adminSection.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            adminSection.classList.add('hidden');
-        }
-    };
-
-    async function loadAdminData() {
-        try {
-            const usersResponse = await apiFetch(`${API_URL}/admin/users`);
-            const { users } = await usersResponse.json();
-
-            const plansResponse = await apiFetch(`${API_URL}/admin/plans`);
-            const { plans } = await plansResponse.json();
-
-            document.getElementById('total-users').textContent = users.length;
-            document.getElementById('total-plans').textContent = plans.length;
-
-            renderUsersTable(users, plans);
-        } catch (error) {
-            console.error('Error loading admin data:', error);
-        }
-    }
-
-    function renderUsersTable(users, plans) {
-        const tbody = document.getElementById('users-table-body');
-
-        if (users.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5">No users found</td></tr>';
-            return;
-        }
-
-        tbody.innerHTML = users.map(user => {
-            const userPlanCount = plans.filter(p => p.userId === user.userId).length;
-            const safeId = escapeHtml(user.id);
-            return `
-                <tr>
-                    <td>${escapeHtml(user.displayName) || 'N/A'}</td>
-                    <td>${escapeHtml(user.email)}</td>
-                    <td>${userPlanCount}</td>
-                    <td>
-                        <input type="number"
-                               class="max-plans-input"
-                               value="${parseInt(user.maxPlans) || 2}"
-                               min="1"
-                               data-user-id="${safeId}">
-                    </td>
-                    <td>
-                        <button class="save-max-btn" onclick="updateMaxPlans('${safeId}')">Save</button>
-                    </td>
-                </tr>
-            `;
-        }).join('');
-    }
-
-    window.updateMaxPlans = async function(userId) {
-        const input = document.querySelector(`input[data-user-id="${userId}"]`);
-        const newMaxPlans = parseInt(input.value);
-
-        if (isNaN(newMaxPlans) || newMaxPlans < 1) {
-            alert('Please enter a valid number (minimum 1)');
-            return;
-        }
-
-        try {
-            const response = await apiFetch(`${API_URL}/admin/users/${userId}/max-plans`, {
-                method: 'PUT',
-                body: { maxPlans: newMaxPlans }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update');
-            }
-
-            alert('Max plans updated successfully!');
-            await loadAdminData();
-        } catch (error) {
-            console.error('Error updating max plans:', error);
-            alert('Error updating max plans');
-        }
-    };
 
     // ========== UTILITIES ==========
 
