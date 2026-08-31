@@ -16,53 +16,31 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo (fetch all tags)
+      - name: Checkout repo (full history)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Verify tag exists locally
-        run: |
-          echo "=== Available local tags ==="
-          git tag -l
-          echo "=== Looking for tag: ${{ github.event.inputs.tag }} ==="
-          git show-ref --tags | grep "${{ github.event.inputs.tag }}" || echo "Tag not found locally"
-
       - name: Fetch tag from remote if needed
         run: |
           if ! git show-ref --tags --quiet --verify "refs/tags/${{ github.event.inputs.tag }}"; then
-            echo "Tag not found locally, fetching from remote..."
+            echo "Fetching tag from remote..."
             git fetch origin tag "${{ github.event.inputs.tag }}" --no-tags
           fi
 
       - name: Checkout specific tag
         run: |
           git checkout "refs/tags/${{ github.event.inputs.tag }}" --force
-          echo "=== Checked out commit ==="
+          echo "=== Deploying commit $(git rev-parse HEAD) ==="
           git log --oneline -1
-          echo "=== Current branch/tag ==="
-          git branch -v
-
-      - name: Verify working directory
-        run: |
-          echo "=== Files in root ==="
-          ls -la
-          echo "=== Files in backend ==="
-          ls -la backend/ 2>/dev/null || echo "No backend dir"
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Pull Vercel Environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project Artifacts
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy to Vercel
+      - name: Deploy to Vercel (same as local: vercel --prod)
         id: deploy
         run: |
-          URL=$(vercel deploy --prebuilt --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
+          URL=$(vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$URL" >> "$GITHUB_OUTPUT"
 
       - name: Summary
