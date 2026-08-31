@@ -50,3 +50,9 @@ jobs:
           echo "### Deployed ✅" >> "$GITHUB_STEP_SUMMARY"
           echo "**Tag:** \`${{ github.event.inputs.tag }}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "**URL:** ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Summary
+        run: |
+          echo "### Deployed ✅" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Tag:** \`${{ github.event.inputs.tag }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**URL:** ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
