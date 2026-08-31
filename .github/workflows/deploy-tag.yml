@@ -16,19 +16,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout tag
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: refs/tags/${{ github.event.inputs.tag }}
 
-      - name: Fetch all tags
-        run: git fetch --tags
-
-      - name: List available tags
-        run: git tag -l
-
-      - name: Checkout tag
-        run: git checkout ${{ github.event.inputs.tag }}
+      - name: Verify tag
+        run: git log --oneline -1
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -44,12 +38,6 @@ jobs:
         run: |
           URL=$(vercel deploy --prebuilt --prod --yes --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$URL" >> "$GITHUB_OUTPUT"
-
-      - name: Summary
-        run: |
-          echo "### Deployed ✅" >> "$GITHUB_STEP_SUMMARY"
-          echo "**Tag:** \`${{ github.event.inputs.tag }}\`" >> "$GITHUB_STEP_SUMMARY"
-          echo "**URL:** ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Summary
         run: |
