@@ -16,6 +16,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Fetch all tags
         run: git fetch --tags
 
@@ -23,9 +28,7 @@ jobs:
         run: git tag -l
 
       - name: Checkout tag
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.tag }}
+        run: git checkout ${{ github.event.inputs.tag }}
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
