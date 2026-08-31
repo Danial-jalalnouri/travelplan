@@ -16,13 +16,39 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout tag
+      - name: Checkout repo (fetch all tags)
         uses: actions/checkout@v4
         with:
-          ref: refs/tags/${{ github.event.inputs.tag }}
+          fetch-depth: 0
 
-      - name: Verify tag
-        run: git log --oneline -1
+      - name: Verify tag exists locally
+        run: |
+          echo "=== Available local tags ==="
+          git tag -l
+          echo "=== Looking for tag: ${{ github.event.inputs.tag }} ==="
+          git show-ref --tags | grep "${{ github.event.inputs.tag }}" || echo "Tag not found locally"
+
+      - name: Fetch tag from remote if needed
+        run: |
+          if ! git show-ref --tags --quiet --verify "refs/tags/${{ github.event.inputs.tag }}"; then
+            echo "Tag not found locally, fetching from remote..."
+            git fetch origin tag "${{ github.event.inputs.tag }}" --no-tags
+          fi
+
+      - name: Checkout specific tag
+        run: |
+          git checkout "refs/tags/${{ github.event.inputs.tag }}" --force
+          echo "=== Checked out commit ==="
+          git log --oneline -1
+          echo "=== Current branch/tag ==="
+          git branch -v
+
+      - name: Verify working directory
+        run: |
+          echo "=== Files in root ==="
+          ls -la
+          echo "=== Files in backend ==="
+          ls -la backend/ 2>/dev/null || echo "No backend dir"
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
@@ -43,4 +69,5 @@ jobs:
         run: |
           echo "### Deployed ✅" >> "$GITHUB_STEP_SUMMARY"
           echo "**Tag:** \`${{ github.event.inputs.tag }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Commit:** \`$(git rev-parse HEAD)\`" >> "$GITHUB_STEP_SUMMARY"
           echo "**URL:** ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
