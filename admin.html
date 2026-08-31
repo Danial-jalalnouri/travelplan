@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelPlan - Admin Panel</title>
+    <link rel="stylesheet" href="css/styles.css?v=1.7.0">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand">TravelPlan</div>
+        <div class="nav-auth">
+            <button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+            <a href="/" class="admin-nav-btn">Back to App</a>
+            <div id="auth-logged-out">
+                <button class="auth-btn login-btn" onclick="loginWithGoogle()">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" width="20">
+                    Sign in with Google
+                </button>
+            </div>
+            <div id="auth-logged-in" class="hidden">
+                <div class="user-info">
+                    <img id="user-avatar" src="" alt="Avatar" class="user-avatar">
+                    <span id="user-name"></span>
+                </div>
+                <button class="auth-btn logout-btn" onclick="logoutUser()">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Panel Section -->
+    <section id="admin-section" class="admin-section">
+        <div class="admin-container">
+            <h2>Admin Panel</h2>
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-users">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-plans">0</div>
+                        <div class="stat-label">Total Plans</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-table-container">
+                <h3>User Management</h3>
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Plans Used</th>
+                            <th>Max Plans</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 TravelPlan. Powered by AI.</p>
+    </footer>
+
+    <script src="js/app.js?v=8.0.0"></script>
+    <script src="js/admin.js?v=1.0.0"></script>
+</body>
+</html>
